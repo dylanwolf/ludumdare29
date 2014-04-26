@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41cb500cf0f58e74f9a52a8af931edde, type: 3}
+  m_Name: -tk2d
+  m_EditorClassIdentifier: 
+  version: 4
+  spriteAnimationIndex: []
+  fontIndex: []
+  spriteCollectionIndex:
+  - name: UI
+    spriteCollectionGUID: ff53bbdd1587d6c47a7bc65867d3207a
+    spriteCollectionDataGUID: 98c2f544f1a7d4a498613bf782f05703
+    spriteNames:
+    - magicbar
+    spriteTextureGUIDs:
+    - c36908d34401e4d499aca3532d9ce1e2
+    spriteTextureTimeStamps:
+    - 1398472861.71612
+    managedSpriteCollection: 0
+    loadable: 0
+    assetName: 
+    version: 3
