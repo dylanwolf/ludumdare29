@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
 
+	public Cloud CloudPrefab;
 	public static PlayerController Current;
 
 	SpriteRenderer renderer;
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour {
 	public AudioSource UnderworldMusic;
 
 	Animator anim;
+
+	public int Rubies = 0;
 
 	float PushbackTimer;
 	const float MaxPushbackTimer = 0.25f;
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour {
 
 	void ResetLevel()
 	{
+		Rubies = 0;
 		Life = 1.0f;
 		MagicPower = 0.25f;
 		CurrentLocation = LocationTypes.Overworld;
@@ -151,6 +155,11 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if (CurrentState == PlayerState.Paused)
 			return;
+
+		if (Life <= 0)
+		{
+			MessageWindow.Current.ShowWindow("Perished...", Application.loadedLevelName);
+		}
 
 		if (DamageTimer > 0)
 		{
@@ -226,6 +235,12 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider)
 	{
+		if (collider.tag == RubyTag)
+		{
+			Rubies += 1;
+			DestroyObject(collider.gameObject);
+			// TODO: Play sound
+		}
 	}
 
 	const string MonsterTag = "Monster";
@@ -268,6 +283,8 @@ public class PlayerController : MonoBehaviour {
 			Pushback();
 		}
 	}
+
+	const string RubyTag = "Ruby";
 
 	public void Pushback()
 	{
