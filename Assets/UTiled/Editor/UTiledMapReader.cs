@@ -711,6 +711,16 @@ namespace FuncWorks.Unity.UTiled {
 						obj.AddComponent<RockMonster>();
 						obj.tag = "Monster";
 						break;
+					case "Ruby":
+						obj.tag = "Ruby";
+						collider.isTrigger = true;
+						break;
+					case "Giant":
+						Giant g = obj.AddComponent<Giant>();
+						g.NewLevel = properties.GetValue("NewLevel");
+						int? rg = properties.GetValueAsInt("RubyGoal");
+						g.RubyGoal = rg.HasValue ? rg.Value : 1;
+						break;
 				}
 			}
 

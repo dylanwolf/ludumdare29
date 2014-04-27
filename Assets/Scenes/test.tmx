@@ -4,15 +4,21 @@
   <image source="terrain.png" width="1408" height="48"/>
  </tileset>
  <tileset firstgid="23" name="Items" tilewidth="48" tileheight="48">
-  <image source="item.png" width="48" height="48"/>
+  <image source="item.png" width="384" height="55"/>
   <tile id="0">
    <properties>
     <property name="Collectable" value="True"/>
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="24" name="backdrop" tilewidth="128" tileheight="96">
+ <tileset firstgid="31" name="backdrop" tilewidth="128" tileheight="96">
   <image source="backdrop.png" width="128" height="96"/>
+ </tileset>
+ <tileset firstgid="32" name="Giant" tilewidth="96" tileheight="144">
+  <image source="Giant.png" width="96" height="144"/>
+ </tileset>
+ <tileset firstgid="33" name="rocks" tilewidth="64" tileheight="64">
+  <image source="rocks.png" width="128" height="64"/>
  </tileset>
  <layer name="Underworld" width="28" height="28">
   <data>
@@ -804,7 +810,7 @@
  </layer>
  <objectgroup name="Underworld Objects" width="28" height="28">
   <object type="Lava" x="384" y="432" width="64" height="48"/>
-  <object type="RockMonster" gid="23" x="768" y="240"/>
+  <object name="Monster" type="RockMonster" gid="23" x="768" y="240"/>
   <object type="Lava" x="384" y="480" width="64" height="48"/>
   <object type="Lava" x="448" y="432" width="64" height="48"/>
   <object type="Lava" x="512" y="432" width="64" height="48"/>
@@ -819,7 +825,7 @@
   <object type="Lava" x="640" y="144" width="64" height="48"/>
   <object type="Lava" x="704" y="144" width="64" height="48"/>
   <object type="Lava" x="768" y="144" width="64" height="48"/>
-  <object type="Lava" x="832" y="144" width="64" height="48"/>
+  <object type="Lava" x="835" y="147" width="64" height="48"/>
   <object type="Lava" x="896" y="144" width="64" height="48"/>
   <object type="Lava" x="896" y="192" width="64" height="48"/>
   <object type="Lava" x="896" y="240" width="64" height="48"/>
@@ -834,6 +840,29 @@
   <object x="1728" y="96" width="64" height="1248"/>
   <object x="0" y="96" width="64" height="1248"/>
   <object x="-64" y="960" width="1856" height="384"/>
+  <object name="Giant" type="Giant" gid="32" x="1472" y="432">
+   <properties>
+    <property name="NewLevel" value="Test"/>
+    <property name="RubyGoal" value="1"/>
+   </properties>
+  </object>
+  <object name="Ruby" type="Ruby" gid="23" x="1152" y="384"/>
+  <object type="Rock" gid="34" x="1024" y="768"/>
+  <object type="BreakRock" gid="33" x="960" y="768">
+   <properties>
+    <property name="Contains" value="Ruby"/>
+   </properties>
+  </object>
+  <object type="BreakRock" gid="33" x="896" y="768">
+   <properties>
+    <property name="Contains" value="Monster"/>
+   </properties>
+  </object>
+  <object type="BreakRock" gid="33" x="832" y="768">
+   <properties>
+    <property name="Contains" value=""/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Overworld" width="28" height="28" visible="0">
   <data>
@@ -865,33 +894,33 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
-   <tile gid="24"/>
+   <tile gid="31"/>
    <tile gid="0"/>
    <tile gid="9"/>
    <tile gid="11"/>

@@ -71,6 +71,8 @@ public class RockMonster : MonoBehaviour {
 	}
 
 	void Awake () {
+		GetComponent<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("RockGuyAnimation");
+
 		RandomizeDirection();
 		BeginWander();
 	}
@@ -129,6 +131,8 @@ public class RockMonster : MonoBehaviour {
 
 		if (collide.tag == PlayerAttackTag)
 		{
+			Cloud c = (Cloud)Instantiate(PlayerController.Current.CloudPrefab);
+			c.transform.position = this.transform.position;
 			DestroyObject (gameObject);
 		}
 	}
