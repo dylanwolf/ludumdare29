@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class PlayerController : MonoBehaviour {
 
 	public Cloud CloudPrefab;
+	public Transform RubyPrefab;
+	public RockMonster MonsterPrefab;
+
 	public static PlayerController Current;
 
 	SpriteRenderer renderer;
@@ -122,13 +125,14 @@ public class PlayerController : MonoBehaviour {
 		if (CurrentState == PlayerState.OnLevel)
 		{
 			// Switch levels
-			if (Input.GetKeyUp (KeyCode.Return) && CastTimer <= 0)
+			if (Input.GetButtonUp("Jump") && CastTimer <= 0)
 			{
 				if (MagicPower > CastingCost_Transfer)
 				{
 					UnderworldObjectFader.SetActive(false, false);
 					OverworldObjectFader.SetActive(false, true);
 					CurrentState = PlayerState.Transition;
+					Soundboard.PlayTransition();
 					TransitionTimer = TransitionTimerMax;
 					MagicPower -= CastingCost_Transfer;
 					anim.SetBool(AnimParam_Jump, true);
@@ -183,6 +187,7 @@ public class PlayerController : MonoBehaviour {
 		if (Life <= 0)
 		{
 			MessageWindow.Current.ShowWindow("Perished...", Application.loadedLevelName);
+			Soundboard.PlayFailure();
 		}
 
 		if (DamageTimer > 0)
@@ -254,7 +259,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			Rubies += 1;
 			DestroyObject(collider.gameObject);
-			// TODO: Play sound
+			Soundboard.PlayRubyPickup();
 		}
 	}
 
@@ -264,12 +269,15 @@ public class PlayerController : MonoBehaviour {
 		if (CurrentState == PlayerState.Transition)
 			return;
 
+		Debug.Log(collision.collider.tag);
+
 		if ((CurrentState == PlayerState.Arrived || CurrentState == PlayerState.ArrivedAndSet) && !forcedTransition)
 		{
 			UnderworldObjectFader.SetActive(false, false);
 			OverworldObjectFader.SetActive(false, true);
 			CurrentState = PlayerState.Transition;
 			TransitionTimer = TransitionTimerMax;
+			Soundboard.PlayTransition();
 			anim.SetBool(AnimParam_Jump, true);
 			transform.position = lastPosition;
 			forcedTransition = true;
@@ -277,9 +285,13 @@ public class PlayerController : MonoBehaviour {
 
 		if (collision.collider.tag == MonsterTag)
 		{
-			MagicPower -= MagicDamage_Monster;
-			Life -= LifeDamage_Monster;
-			DamageTimer = DamageTimerMax;
+			if (DamageTimer <= 0)
+			{
+				MagicPower -= MagicDamage_Monster;
+				Life -= LifeDamage_Monster;
+				DamageTimer = DamageTimerMax;
+				Soundboard.PlayHurt();
+			}
 			if (!forcedTransition)
 				Pushback();
 		}
@@ -290,6 +302,7 @@ public class PlayerController : MonoBehaviour {
 				MagicPower -= MagicDamage_Lava;
 				Life -= LifeDamage_Lava;
 				DamageTimer = DamageTimerMax;
+				Soundboard.PlayHurt();
 			}
 			if (!forcedTransition)
 				Pushback();
@@ -321,5 +334,14 @@ public class PlayerController : MonoBehaviour {
 	{
 		PushbackTimer = MaxPushbackTimer;
 		pushbackDirection = lastMove.normalized;
+	}
+
+	public static void DuckMusic()
+	{
+		if (Current != null)
+		{
+			Current.OverworldMusic.volume = (Current.CurrentLocation == LocationTypes.Overworld) ?  0.25f : 0;
+			Current.UnderworldMusic.volume = (Current.CurrentLocation == LocationTypes.Underworld) ?  0.25f : 0;
+		}
 	}
 }

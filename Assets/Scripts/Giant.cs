@@ -31,6 +31,7 @@ public class Giant : MonoBehaviour {
 			if (PlayerController.Current.Rubies >= RubyGoal)
 			{
 				MessageWindow.Current.ShowWindow("Crunch, crunch, crunch, mmm, it tastes so sweet. Rubies are my favorite.", NewLevel);
+				Soundboard.PlaySuccess();
 			}
 			else
 			{

@@ -71,8 +71,6 @@ public class RockMonster : MonoBehaviour {
 	}
 
 	void Awake () {
-		GetComponent<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("RockGuyAnimation");
-
 		RandomizeDirection();
 		BeginWander();
 	}
@@ -126,8 +124,6 @@ public class RockMonster : MonoBehaviour {
 	{
 		if (PlayerController.Current.CurrentState == PlayerController.PlayerState.Paused)
 			return;
-
-		Debug.Log (collide.tag);
 
 		if (collide.tag == PlayerAttackTag)
 		{

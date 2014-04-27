@@ -15,7 +15,11 @@ MonoBehaviour:
   spriteAnimationIndex: []
   fontIndex:
   - assetGUID: 29a6c2e58262bb141b53e61524f53c9f
-    dataGUID: bf50cb34e95a07343af57dc7232b4d0d
+    dataGUID: 9e5be1446d5b31b499c761b50774e3df
+    managed: 0
+    loadable: 0
+  - assetGUID: 52d90fea760864940b632908c0e4d9f4
+    dataGUID: fb19902bcfbf76846aa49b7bd94356f6
     managed: 0
     loadable: 0
   spriteCollectionIndex:
