@@ -37,6 +37,8 @@ public class ObjectLayerFader : MonoBehaviour {
 				else
 				{
 					colliders[i].gameObject.layer = active ? DefaultLayer : OtherWorldLayer;
+					colliders[i].enabled = false;
+					colliders[i].enabled = true;
 				}
 			}
 		}
