@@ -63,5 +63,23 @@ TextureImporter:
         height: 48
       alignment: 0
       pivot: {x: 24, y: 24}
+    - name: test_2_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: test_2_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
   spritePackingTag: 
   userData: 

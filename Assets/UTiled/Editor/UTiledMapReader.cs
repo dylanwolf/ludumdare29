@@ -663,18 +663,7 @@ namespace FuncWorks.Unity.UTiled {
                             collider.size = new Vector2(source.rect.width / settings.PixelsPerUnit, source.rect.height / settings.PixelsPerUnit);
 
 							// LD29-specific
-							UTiledProperties properties = sr.gameObject.GetComponent<UTiledProperties>();
-							if (properties != null)
-							{
-								switch (properties.ObjectType)
-								{
-									case "Lava":
-										collider.isTrigger = true;
-										obj.AddComponent<LavaTile>();
-										obj.tag = "Lava";
-										break;
-								}
-							}
+							SetObjectType(obj, collider);
 							// ----------
                         }
                         else if (!tileGID.HasValue && oX.HasValue && oY.HasValue && oWidth.HasValue && oHeight.HasValue) {
@@ -684,18 +673,7 @@ namespace FuncWorks.Unity.UTiled {
                                                                       (-1 * (oY.Value - .5f * mapHeight * mapTileHeight + .5f * oHeight.Value)) / settings.PixelsPerUnit, 0);
 
 							// LD29-specific
-							UTiledProperties properties = obj.GetComponent<UTiledProperties>();
-							if (properties != null)
-							{
-								switch (properties.ObjectType)
-								{
-								case "Lava":
-									collider.isTrigger = true;
-									obj.AddComponent<LavaTile>();
-									obj.tag = "Lava";
-									break;
-								}
-							}
+							SetObjectType(obj, collider);
 							// ----------
                         }
                     }
@@ -712,6 +690,32 @@ namespace FuncWorks.Unity.UTiled {
 
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }
+
+		// LD 29 specific
+		static void SetObjectType(GameObject obj, Collider2D collider)
+		{
+			UTiledProperties properties = obj.GetComponent<UTiledProperties>();
+			if (properties != null)
+			{
+				switch (properties.ObjectType)
+				{
+					case "Lava":
+						obj.AddComponent<LavaTile>();
+						obj.tag = "Lava";
+						break;
+					case "RockMonster":
+						Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
+						rb.gravityScale = 0;
+						rb.fixedAngle = true;
+						rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+						obj.AddComponent<RockMonster>();
+						obj.tag = "Monster";
+						break;
+				}
+			}
+
+		}
+		// ----------
 
         private static int FindVertIndex(Vector3 v, List<Vector3> list) {
             for (int i = 0; i < list.Count; i++) {

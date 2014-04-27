@@ -1,23 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
 
 	public static PlayerController Current;
 
+	SpriteRenderer renderer;
 	public TileLayerFader OverworldTileFader;
 	public ObjectLayerFader OverworldObjectFader;
 	public ObjectLayerFader UnderworldObjectFader;
+
+	public AudioSource OverworldMusic;
+	public AudioSource UnderworldMusic;
+
+	Animator anim;
+
+	float PushbackTimer;
+	const float MaxPushbackTimer = 0.25f;
+	const float PushbackAmount = 10.0f;
+	Vector2 pushbackDirection;
 
 	public LavaFlow LavaFlowPrefab;
 
 	public float Speed = 3.0f;
 
+	public float Life = 1.0f;
+	const float OverworldLifeRegen = 0.05f;
+	const float LifeDamage_Lava = 0.1f;
+	const float LifeDamage_Monster = 0.3f;
+
 	public float MagicPower = 0f;
-	const float OverworldRegen = 0.025f;
-	const float UnderworldRegen = 0.1f;
+	const float OverworldMagicRegen = 0.025f;
+	const float UnderworldMagicRegen = 0.1f;
 	const float CastingCost_Transfer = 0.25f;
 	const float MagicDamage_Lava = 0.5f;
+	const float MagicDamage_Monster = 0.3f;
+
+	Color tmpColor;
+	float minNonRedDamage = 0.5f;
+	float minOpacityDamage = 0.75f;
 
 	public enum LocationTypes
 	{
@@ -29,8 +51,13 @@ public class PlayerController : MonoBehaviour {
 	{
 		OnLevel,
 		Arrived,
-		Transition
+		Transition,
+		Paused
 	}
+
+	const string AnimParam_Speed = "Speed";
+	const string AnimParam_Jump = "Jumping";
+	const string AnimParam_Cast = "Casting";
 
 	public LocationTypes CurrentLocation;
 	public PlayerState CurrentState;
@@ -39,62 +66,138 @@ public class PlayerController : MonoBehaviour {
 	float DamageTimer;
 	const float DamageTimerMax = 5.0f;
 
+	float CastTimer;
+	const float CastTimerMax = 0.5f;
+
 	// Use this for initialization
 	void Start () {
+		anim = GetComponent<Animator>();
+		renderer = GetComponent<SpriteRenderer>();
+
 		ResetLevel();
 		Current = this;
 	}
 
+	void Crossfade(float overworldAmt)
+	{
+		OverworldMusic.volume = overworldAmt;
+		UnderworldMusic.volume = 1 - overworldAmt;
+	}
+
 	void ResetLevel()
 	{
+		Life = 1.0f;
 		MagicPower = 0.25f;
 		CurrentLocation = LocationTypes.Overworld;
 		CurrentState = PlayerState.OnLevel;
-		UnderworldObjectFader.SetActive(false);
-		OverworldObjectFader.SetActive(true);
+		UnderworldObjectFader.SetActive(false, false);
+		OverworldObjectFader.SetActive(true, true);
 		OverworldObjectFader.SetOpacity(1);
 		OverworldTileFader.SetOpacity(1);
+		Crossfade(1);
 	}
 
+	private Vector2 lastMove;
 	private Vector2 tmpForce;
 	private float tmpOpacity;
+	private Vector3 tmpScale;
 	void FixedUpdate()
 	{
-		if (CurrentState == PlayerState.OnLevel)
+		if (CurrentState == PlayerState.OnLevel && CastTimer <= 0 && PushbackTimer <= 0)
 		{
 			// Move the character
 			tmpForce.x = Input.GetAxis("Horizontal");
 			tmpForce.y = Input.GetAxis("Vertical");
 			rigidbody2D.velocity = (tmpForce * Speed);
+			if (tmpForce.x != 0)
+			{
+				tmpScale = transform.localScale;
+				tmpScale.x = -Mathf.Sign (tmpForce.x);
+				if (Mathf.Sign (tmpScale.x) != Mathf.Sign (transform.localScale.x))
+				{
+					transform.localScale = tmpScale;
+					Camera.main.transform.localScale = tmpScale;
+				}
+			}
+			if (tmpForce.magnitude > 0)
+			{
+				lastMove = tmpForce;
+			}
+			anim.SetFloat(AnimParam_Speed, tmpForce.magnitude);
 		}
 		else
 		{
 			rigidbody2D.velocity = Vector2.zero;
+			anim.SetFloat(AnimParam_Speed, 0);
+		}
+
+		if (PushbackTimer > 0 && CurrentState != PlayerState.Paused)
+		{
+			PushbackTimer -= Time.fixedDeltaTime;
+			if (PushbackTimer > 0)
+			{
+				rigidbody2D.velocity -= (pushbackDirection * Mathf.Sin ((Mathf.PI/2) * (PushbackTimer/MaxPushbackTimer)) * PushbackAmount);
+			}
 		}
 	}
 
+	public void CastAnimation()
+	{
+		CastTimer = CastTimerMax;
+		anim.SetBool(AnimParam_Cast, true);
+	}
+
+	private float tmpTween;
 	void Update () {
+		if (CurrentState == PlayerState.Paused)
+			return;
+
 		if (DamageTimer > 0)
 		{
 			DamageTimer -= Time.deltaTime;
+
+			if (DamageTimer > 0)
+			{
+				tmpColor = Color.white;
+				tmpTween = (Mathf.Sin (24*Mathf.PI * (DamageTimer/DamageTimerMax))+1)/2;
+				tmpColor.a = ((1 - minOpacityDamage) * tmpTween) + minOpacityDamage;
+				tmpColor.b = ((1 - minNonRedDamage) * tmpTween) + minOpacityDamage;
+				tmpColor.g = ((1 - minNonRedDamage) * tmpTween) + minOpacityDamage;
+				renderer.color = tmpColor;
+			}
+			else
+			{
+				renderer.color = Color.white;
+			}
+		}
+
+		if (CastTimer > 0)
+		{
+			CastTimer -= Time.deltaTime;
+			if (CastTimer <= 0)
+			{
+				anim.SetBool(AnimParam_Cast, false);
+			}
 		}
 
 		if (CurrentState == PlayerState.OnLevel)
 		{
-			MagicPower += (CurrentLocation == LocationTypes.Overworld ? OverworldRegen : UnderworldRegen) * Time.deltaTime;
+			MagicPower += (CurrentLocation == LocationTypes.Overworld ? OverworldMagicRegen : UnderworldMagicRegen) * Time.deltaTime;
+			Life += (CurrentLocation == LocationTypes.Overworld ? OverworldLifeRegen : 0) * Time.deltaTime;
 			if (MagicPower > 1) { MagicPower = 1; }
+			if (Life > 1) { Life = 1; }
 
 			// Switch levels
-			if (Input.GetKeyUp (KeyCode.Return))
+			if (Input.GetKeyUp (KeyCode.Return) && CastTimer <= 0)
 			{
 				if (MagicPower > CastingCost_Transfer)
 				{
-					UnderworldObjectFader.SetActive(false);
-					OverworldObjectFader.SetActive(false);
+					UnderworldObjectFader.SetActive(false, false);
+					OverworldObjectFader.SetActive(false, true);
 					CurrentState = PlayerState.Transition;
-					Debug.Log (CurrentState);
 					TransitionTimer = TransitionTimerMax;
 					MagicPower -= CastingCost_Transfer;
+					anim.SetBool(AnimParam_Jump, true);
 				}
 			}
 		}
@@ -102,38 +205,73 @@ public class PlayerController : MonoBehaviour {
 		{
 			TransitionTimer -= Time.deltaTime;
 			tmpOpacity = TransitionTimer/TransitionTimerMax;
+			Crossfade ((CurrentLocation == LocationTypes.Underworld) ? (1-tmpOpacity) : tmpOpacity);
 			OverworldTileFader.SetOpacity((CurrentLocation == LocationTypes.Underworld) ? (1-tmpOpacity) : tmpOpacity);
 			OverworldObjectFader.SetOpacity((CurrentLocation == LocationTypes.Underworld) ? (1-tmpOpacity) : tmpOpacity);
 
 			if (TransitionTimer <= 0)
 			{
 				CurrentState = PlayerState.Arrived;
-				Debug.Log (CurrentState);
+				anim.SetBool(AnimParam_Jump, false);
 			}
 		}
 		else if (CurrentState == PlayerState.Arrived)
 		{
 			CurrentLocation = (CurrentLocation == LocationTypes.Overworld) ? LocationTypes.Underworld : LocationTypes.Overworld;
-			UnderworldObjectFader.SetActive(CurrentLocation == LocationTypes.Underworld);
-			OverworldObjectFader.SetActive(CurrentLocation == LocationTypes.Overworld);
+			UnderworldObjectFader.SetActive(CurrentLocation == LocationTypes.Underworld, false);
+			OverworldObjectFader.SetActive(CurrentLocation == LocationTypes.Overworld, true);
 			CurrentState = PlayerState.OnLevel;
-			Debug.Log (CurrentState);
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D collider)
 	{
-		Debug.Log ("Collided with "+ collider.name);
 	}
 
-	private string LavaTag = "Lava";
+	const string MonsterTag = "Monster";
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.collider.tag == MonsterTag)
+		{
+			MagicPower -= MagicDamage_Monster;
+			Life -= LifeDamage_Monster;
+			DamageTimer = DamageTimerMax;
+			Pushback();
+		}
+		else if (collision.collider.tag == LavaTag)
+		{
+			if (DamageTimer <= 0)
+			{
+				MagicPower -= MagicDamage_Lava;
+				Life -= LifeDamage_Lava;
+				DamageTimer = DamageTimerMax;
+			}
+			Pushback();
+		}
+	}
+
+	const string LavaTag = "Lava";
+	const string PlayerAttackTag = "PlayerAttack";
 	void OnTriggerStay2D(Collider2D collider)
 	{
-		if (collider.tag == LavaTag && DamageTimer <= 0)
+		if (CurrentState == PlayerState.Paused)
+			return;
+
+		if (collider.tag == PlayerAttackTag)
 		{
-			MagicPower -= MagicDamage_Lava;
-			DamageTimer = DamageTimerMax;
-			Debug.Log (string.Format("Magic: {0} Damage Timer: {1}", MagicPower, DamageTimer));
+			if (DamageTimer <= 0)
+			{
+				MagicPower -= MagicDamage_Lava;
+				Life -= LifeDamage_Lava;
+				DamageTimer = DamageTimerMax;
+			}
+			Pushback();
 		}
+	}
+
+	public void Pushback()
+	{
+		PushbackTimer = MaxPushbackTimer;
+		pushbackDirection = lastMove.normalized;
 	}
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
     GenerateCollisionMesh: 0
     ImportLayer: 0
   - LayerName: Overworld
-    GenerateRenderMesh: 1
+    GenerateRenderMesh: 0
     GenerateCollisionMesh: 0
     ImportLayer: 0
   ObjectLayerSettings:
