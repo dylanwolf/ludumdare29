@@ -22,11 +22,23 @@ public class ObjectLayerFader : MonoBehaviour {
 		}
 	}
 
-	public void SetActive(bool active)
+	const int DefaultLayer = 0;
+	const int OtherWorldLayer = 11;
+	public void SetActive(bool active, bool disable)
 	{
 		for (int i = 0; i < colliders.Length; i++)
 		{
-			colliders[i].enabled = active;
+			if (colliders[i] != null)
+			{
+				if (disable)
+				{
+					colliders[i].enabled = active;
+				}
+				else
+				{
+					colliders[i].gameObject.layer = active ? DefaultLayer : OtherWorldLayer;
+				}
+			}
 		}
 	}
 }

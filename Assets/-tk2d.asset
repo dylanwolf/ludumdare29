@@ -13,17 +13,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 4
   spriteAnimationIndex: []
-  fontIndex: []
+  fontIndex:
+  - assetGUID: 29a6c2e58262bb141b53e61524f53c9f
+    dataGUID: bf50cb34e95a07343af57dc7232b4d0d
+    managed: 0
+    loadable: 0
   spriteCollectionIndex:
   - name: UI
     spriteCollectionGUID: ff53bbdd1587d6c47a7bc65867d3207a
     spriteCollectionDataGUID: 98c2f544f1a7d4a498613bf782f05703
     spriteNames:
     - magicbar
+    - lifebar
+    - MeterFrame
+    - Window
     spriteTextureGUIDs:
     - c36908d34401e4d499aca3532d9ce1e2
+    - 42a9acf00dc577b4e8010189ed4968b2
+    - 2786fddfbcc038645802804b05ea2d6b
+    - 6e19b553e3a8a374997bceac67945e9e
     spriteTextureTimeStamps:
-    - 1398472861.71612
+    - 1398520159.6828
+    - 1398528571.67594
+    - 1398535525.40767
+    - 1398560092.7066
     managedSpriteCollection: 0
     loadable: 0
     assetName: 
