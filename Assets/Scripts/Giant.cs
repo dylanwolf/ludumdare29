@@ -23,7 +23,7 @@ public class Giant : MonoBehaviour {
 	const string PlayerTag = "Player";
 	void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (PlayerController.Current.CurrentState == PlayerController.PlayerState.Transition)
+		if (PlayerController.Current.CurrentState == PlayerController.PlayerState.Transition || !canInteract)
 			return;
 
 		if (collision.collider.tag == PlayerTag)

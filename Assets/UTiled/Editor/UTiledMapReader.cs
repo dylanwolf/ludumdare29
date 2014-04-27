@@ -704,11 +704,7 @@ namespace FuncWorks.Unity.UTiled {
 						obj.tag = "Lava";
 						break;
 					case "RockMonster":
-						UnityEngine.Object pf1 = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Monster.prefab", typeof(UnityEngine.Object));
-						GameObject pf2 = (GameObject)PrefabUtility.InstantiatePrefab(pf1);
-						pf2.transform.parent = obj.transform.parent;
-						pf2.transform.position = obj.transform.position;
-						Editor.DestroyImmediate(obj);
+						obj.AddComponent<RockMonsterSpawner>();
 						break;
 					case "Ruby":
 						obj.tag = "Ruby";

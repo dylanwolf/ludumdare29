@@ -144,5 +144,293 @@ TextureImporter:
         height: 48
       alignment: 0
       pivot: {x: 24, y: 24}
+    - name: Level1_2_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level1_2_24
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level1_2_25
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level1_2_26
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level1_2_27
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level1_2_28
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level1_2_29
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level1_2_30
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level2_2_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level2_2_24
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level2_2_25
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level2_2_26
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level2_2_27
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level2_2_28
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level2_2_29
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level2_2_30
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level3_2_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level3_2_24
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level3_2_25
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level3_2_26
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level3_2_27
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level3_2_28
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level3_2_29
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level3_2_30
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level4_2_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level4_2_24
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level4_2_25
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level4_2_26
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level4_2_27
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level4_2_28
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level4_2_29
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
+    - name: Level4_2_30
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 7
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 24, y: 24}
   spritePackingTag: 
   userData: 

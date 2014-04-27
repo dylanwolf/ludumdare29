@@ -10,7 +10,7 @@ public class CameraLimiter : MonoBehaviour
 	public static CameraLimiter Current;
 
     [System.NonSerialized]
-    public bool ForceCameraReset = false;
+    public bool ForceCameraReset = true;
 
     private Rect bestCamera;
 
