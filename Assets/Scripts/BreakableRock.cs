@@ -24,11 +24,15 @@ public class BreakableRock : MonoBehaviour {
 		{
 			Transform r = (Transform)Instantiate (PlayerController.Current.RubyPrefab);
 			r.transform.position = this.transform.position;
+			r.transform.parent = this.transform.parent;
+			transform.parent.GetComponent<ObjectLayerFader>().ResetObjects = true;
 		}
 		else if (Contains == "Monster")
 		{
 			RockMonster r = (RockMonster)Instantiate (PlayerController.Current.MonsterPrefab);
 			r.transform.position = this.transform.position;
+			r.transform.parent = this.transform.parent;
+			transform.parent.GetComponent<ObjectLayerFader>().ResetObjects = true;
 		}
 	}
 }
