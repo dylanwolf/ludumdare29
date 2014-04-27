@@ -44,7 +44,7 @@ public class MessageWindow : MonoBehaviour {
 		if (!renderer.enabled)
 			return;
 
-		if (Input.GetKeyUp(KeyCode.Return))
+		if (Input.GetButtonUp("Jump"))
 		{
 			ToggleSelfAndChildren(false);
 			if (!string.IsNullOrEmpty(LevelChange))

@@ -704,12 +704,11 @@ namespace FuncWorks.Unity.UTiled {
 						obj.tag = "Lava";
 						break;
 					case "RockMonster":
-						Rigidbody2D rb = obj.AddComponent<Rigidbody2D>();
-						rb.gravityScale = 0;
-						rb.fixedAngle = true;
-						rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-						obj.AddComponent<RockMonster>();
-						obj.tag = "Monster";
+						UnityEngine.Object pf1 = AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Monster.prefab", typeof(UnityEngine.Object));
+						GameObject pf2 = (GameObject)PrefabUtility.InstantiatePrefab(pf1);
+						pf2.transform.parent = obj.transform.parent;
+						pf2.transform.position = obj.transform.position;
+						Editor.DestroyImmediate(obj);
 						break;
 					case "Ruby":
 						obj.tag = "Ruby";
@@ -720,6 +719,13 @@ namespace FuncWorks.Unity.UTiled {
 						g.NewLevel = properties.GetValue("NewLevel");
 						int? rg = properties.GetValueAsInt("RubyGoal");
 						g.RubyGoal = rg.HasValue ? rg.Value : 1;
+						break;
+					case "BreakRock":
+						BreakableRock br = obj.AddComponent<BreakableRock>();
+						br.Contains = properties.GetValue("Contains");
+						Vector2 tmpVector = ((BoxCollider2D)collider).size;
+						tmpVector.x = 0.5f;
+						((BoxCollider2D)collider).size = tmpVector;
 						break;
 				}
 			}

@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: Fontdata
+  m_Name: TextFontdata
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -978,7 +978,7 @@ MonoBehaviour:
   useDictionary: 0
   kerning: []
   largestWidth: .319999993
-  material: {fileID: 2100000, guid: 02f2caedd81a0464dbdc5a302f1e2be6, type: 2}
+  material: {fileID: 2100000, guid: 97db16f044fae904395887a9fdc9e018, type: 2}
   gradientTexture: {fileID: 0}
   textureGradients: 0
   gradientCount: 1

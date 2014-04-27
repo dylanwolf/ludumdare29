@@ -13,7 +13,7 @@ public class LavaTile : MonoBehaviour {
 			LavaFlow lf = (LavaFlow)Instantiate(PlayerController.Current.LavaFlowPrefab);
 			lf.transform.position = this.transform.position;
 			PlayerController.Current.MagicPower -= CastingCost;
-
+			Soundboard.PlayLava();
 			PlayerController.Current.CastAnimation();
 		}
 	}

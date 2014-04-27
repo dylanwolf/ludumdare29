@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: Font
+  m_Name: TextFont
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bmFont: {fileID: 4900000, guid: 91e738a47434e244a82c6f6620e6b041, type: 3}
-  material: {fileID: 2100000, guid: 02f2caedd81a0464dbdc5a302f1e2be6, type: 2}
+  material: {fileID: 2100000, guid: 97db16f044fae904395887a9fdc9e018, type: 2}
   texture: {fileID: 2800000, guid: dbc70847eb4c1d1479f30d274b8974cd, type: 3}
   gradientTexture: {fileID: 0}
   dupeCaps: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
   manageMaterial: 1
   loadable: 0
   charPadX: 0
-  data: {fileID: 11400000, guid: bf50cb34e95a07343af57dc7232b4d0d, type: 2}
+  data: {fileID: 11400000, guid: 9e5be1446d5b31b499c761b50774e3df, type: 2}
   version: 1
 --- !u!1001 &100100000
 Prefab:
