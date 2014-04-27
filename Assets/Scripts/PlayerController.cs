@@ -74,18 +74,37 @@ public class PlayerController : MonoBehaviour {
 	float TransitionTimer;
 	const float TransitionTimerMax = 1;
 	float DamageTimer;
-	const float DamageTimerMax = 5.0f;
+	const float DamageTimerMax = 1.0f;
 
 	float CastTimer;
 	const float CastTimerMax = 0.5f;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		anim = GetComponent<Animator>();
 		renderer = GetComponent<SpriteRenderer>();
-
-		ResetLevel();
 		Current = this;
+
+		foreach (UTiledLayerSettings uls in FindObjectsOfType(typeof(UTiledLayerSettings)))
+        {
+			uls.gameObject.SetActive(true);
+			if (uls.gameObject.name == "Overworld")
+			{
+				OverworldTileFader = uls.GetComponent<TileLayerFader>();
+			}
+			if (uls.gameObject.name == "Underworld Objects")
+			{
+				UnderworldObjectFader = uls.GetComponent<ObjectLayerFader>();
+			}
+			if (uls.gameObject.name == "Overworld Objects")
+			{
+				OverworldObjectFader = uls.GetComponent<ObjectLayerFader>();
+			}
+		}
+
+	}
+	void Start() {
+		ResetLevel();
 	}
 
 	void Crossfade(float overworldAmt)

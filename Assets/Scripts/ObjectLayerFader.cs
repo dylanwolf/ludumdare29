@@ -6,13 +6,9 @@ public class ObjectLayerFader : MonoBehaviour {
 	SpriteRenderer[] sprites;
 	BoxCollider2D[] colliders;
 	Color tmpColor = new Color(1, 1, 1, 1);
-	
-	void Awake()
-	{
-		sprites = transform.GetComponentsInChildren<SpriteRenderer>();
-		colliders = transform.GetComponentsInChildren<BoxCollider2D>();
-	}
-	
+
+	public bool ResetObjects = false;
+
 	public void SetOpacity(float opacity)
 	{
 		tmpColor.a = opacity;
@@ -26,6 +22,16 @@ public class ObjectLayerFader : MonoBehaviour {
 	const int OtherWorldLayer = 11;
 	public void SetActive(bool active, bool disable)
 	{
+		if (sprites == null || ResetObjects)
+		{
+			sprites = transform.GetComponentsInChildren<SpriteRenderer>();
+		}
+		if (colliders == null || ResetObjects)
+		{
+			colliders = transform.GetComponentsInChildren<BoxCollider2D>();
+		}
+		ResetObjects = false;
+
 		for (int i = 0; i < colliders.Length; i++)
 		{
 			if (colliders[i] != null)

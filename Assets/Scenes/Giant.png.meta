@@ -59,5 +59,41 @@ TextureImporter:
         height: 144
       alignment: 0
       pivot: {x: 48, y: 72}
+    - name: Level1_4_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 96
+        height: 144
+      alignment: 0
+      pivot: {x: 48, y: 72}
+    - name: Level2_4_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 96
+        height: 144
+      alignment: 0
+      pivot: {x: 48, y: 72}
+    - name: Level3_4_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 96
+        height: 144
+      alignment: 0
+      pivot: {x: 48, y: 72}
+    - name: Level4_4_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 96
+        height: 144
+      alignment: 0
+      pivot: {x: 48, y: 72}
   spritePackingTag: 
   userData: 

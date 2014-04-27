@@ -14,8 +14,8 @@ PlayerSettings:
   productName: Sample Assets
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  defaultScreenWidth: 1024
-  defaultScreenHeight: 768
+  defaultScreenWidth: 640
+  defaultScreenHeight: 480
   defaultScreenWidthWeb: 640
   defaultScreenHeightWeb: 480
   m_RenderingPath: 1
@@ -26,7 +26,7 @@ PlayerSettings:
   m_UseDX11: 0
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
-  displayResolutionDialog: 1
+  displayResolutionDialog: 0
   allowedAutorotateToPortrait: 1
   allowedAutorotateToPortraitUpsideDown: 1
   allowedAutorotateToLandscapeRight: 1
