@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
 	public AudioSource OverworldMusic;
 	public AudioSource UnderworldMusic;
 
+	Vector3 lastPosition = Vector3.zero;
 	Animator anim;
 
 	public int Rubies = 0;
@@ -30,19 +31,21 @@ public class PlayerController : MonoBehaviour {
 
 	public float Life = 1.0f;
 	const float OverworldLifeRegen = 0.05f;
-	const float LifeDamage_Lava = 0.1f;
-	const float LifeDamage_Monster = 0.3f;
+	const float LifeDamage_Lava = 0.25f;
+	const float LifeDamage_Monster = 0.25f;
 
 	public float MagicPower = 0f;
 	const float OverworldMagicRegen = 0.025f;
 	const float UnderworldMagicRegen = 0.1f;
-	const float CastingCost_Transfer = 0.25f;
-	const float MagicDamage_Lava = 0.5f;
-	const float MagicDamage_Monster = 0.3f;
+	const float CastingCost_Transfer = 0.1f;
+	const float MagicDamage_Lava = 0.1f;
+	const float MagicDamage_Monster = 0.25f;
 
 	Color tmpColor;
 	float minNonRedDamage = 0.5f;
 	float minOpacityDamage = 0.75f;
+
+
 
 	public enum LocationTypes
 	{
@@ -54,6 +57,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		OnLevel,
 		Arrived,
+		ArrivedAndSet,
 		Transition,
 		Paused
 	}
@@ -101,17 +105,46 @@ public class PlayerController : MonoBehaviour {
 		Crossfade(1);
 	}
 
+	private bool forcedTransition = false;
+
 	private Vector2 lastMove;
 	private Vector2 tmpForce;
 	private float tmpOpacity;
 	private Vector3 tmpScale;
-	void FixedUpdate()
+	public void CastAnimation()
 	{
+		CastTimer = CastTimerMax;
+		anim.SetBool(AnimParam_Cast, true);
+	}
+
+	void Update()
+	{
+		if (CurrentState == PlayerState.OnLevel)
+		{
+			// Switch levels
+			if (Input.GetKeyUp (KeyCode.Return) && CastTimer <= 0)
+			{
+				if (MagicPower > CastingCost_Transfer)
+				{
+					UnderworldObjectFader.SetActive(false, false);
+					OverworldObjectFader.SetActive(false, true);
+					CurrentState = PlayerState.Transition;
+					TransitionTimer = TransitionTimerMax;
+					MagicPower -= CastingCost_Transfer;
+					anim.SetBool(AnimParam_Jump, true);
+				}
+			}
+		}
+	}
+
+	private float tmpTween;
+	void FixedUpdate () {
 		if (CurrentState == PlayerState.OnLevel && CastTimer <= 0 && PushbackTimer <= 0)
 		{
 			// Move the character
 			tmpForce.x = Input.GetAxis("Horizontal");
 			tmpForce.y = Input.GetAxis("Vertical");
+			lastPosition = transform.position;
 			rigidbody2D.velocity = (tmpForce * Speed);
 			if (tmpForce.x != 0)
 			{
@@ -134,7 +167,7 @@ public class PlayerController : MonoBehaviour {
 			rigidbody2D.velocity = Vector2.zero;
 			anim.SetFloat(AnimParam_Speed, 0);
 		}
-
+		
 		if (PushbackTimer > 0 && CurrentState != PlayerState.Paused)
 		{
 			PushbackTimer -= Time.fixedDeltaTime;
@@ -143,16 +176,7 @@ public class PlayerController : MonoBehaviour {
 				rigidbody2D.velocity -= (pushbackDirection * Mathf.Sin ((Mathf.PI/2) * (PushbackTimer/MaxPushbackTimer)) * PushbackAmount);
 			}
 		}
-	}
 
-	public void CastAnimation()
-	{
-		CastTimer = CastTimerMax;
-		anim.SetBool(AnimParam_Cast, true);
-	}
-
-	private float tmpTween;
-	void Update () {
 		if (CurrentState == PlayerState.Paused)
 			return;
 
@@ -163,7 +187,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (DamageTimer > 0)
 		{
-			DamageTimer -= Time.deltaTime;
+			DamageTimer -= Time.fixedDeltaTime;
 
 			if (DamageTimer > 0)
 			{
@@ -182,7 +206,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (CastTimer > 0)
 		{
-			CastTimer -= Time.deltaTime;
+			CastTimer -= Time.fixedDeltaTime;
 			if (CastTimer <= 0)
 			{
 				anim.SetBool(AnimParam_Cast, false);
@@ -191,28 +215,14 @@ public class PlayerController : MonoBehaviour {
 
 		if (CurrentState == PlayerState.OnLevel)
 		{
-			MagicPower += (CurrentLocation == LocationTypes.Overworld ? OverworldMagicRegen : UnderworldMagicRegen) * Time.deltaTime;
-			Life += (CurrentLocation == LocationTypes.Overworld ? OverworldLifeRegen : 0) * Time.deltaTime;
+			MagicPower += (CurrentLocation == LocationTypes.Overworld ? OverworldMagicRegen : UnderworldMagicRegen) * Time.fixedDeltaTime;
+			Life += (CurrentLocation == LocationTypes.Overworld ? OverworldLifeRegen : 0) * Time.fixedDeltaTime;
 			if (MagicPower > 1) { MagicPower = 1; }
 			if (Life > 1) { Life = 1; }
-
-			// Switch levels
-			if (Input.GetKeyUp (KeyCode.Return) && CastTimer <= 0)
-			{
-				if (MagicPower > CastingCost_Transfer)
-				{
-					UnderworldObjectFader.SetActive(false, false);
-					OverworldObjectFader.SetActive(false, true);
-					CurrentState = PlayerState.Transition;
-					TransitionTimer = TransitionTimerMax;
-					MagicPower -= CastingCost_Transfer;
-					anim.SetBool(AnimParam_Jump, true);
-				}
-			}
 		}
 		else if (CurrentState == PlayerState.Transition)
 		{
-			TransitionTimer -= Time.deltaTime;
+			TransitionTimer -= Time.fixedDeltaTime;
 			tmpOpacity = TransitionTimer/TransitionTimerMax;
 			Crossfade ((CurrentLocation == LocationTypes.Underworld) ? (1-tmpOpacity) : tmpOpacity);
 			OverworldTileFader.SetOpacity((CurrentLocation == LocationTypes.Underworld) ? (1-tmpOpacity) : tmpOpacity);
@@ -221,15 +231,20 @@ public class PlayerController : MonoBehaviour {
 			if (TransitionTimer <= 0)
 			{
 				CurrentState = PlayerState.Arrived;
+				CurrentLocation = (CurrentLocation == LocationTypes.Overworld) ? LocationTypes.Underworld : LocationTypes.Overworld;
+				UnderworldObjectFader.SetActive(CurrentLocation == LocationTypes.Underworld, false);
+				OverworldObjectFader.SetActive(CurrentLocation == LocationTypes.Overworld, true);
 				anim.SetBool(AnimParam_Jump, false);
 			}
 		}
 		else if (CurrentState == PlayerState.Arrived)
 		{
-			CurrentLocation = (CurrentLocation == LocationTypes.Overworld) ? LocationTypes.Underworld : LocationTypes.Overworld;
-			UnderworldObjectFader.SetActive(CurrentLocation == LocationTypes.Underworld, false);
-			OverworldObjectFader.SetActive(CurrentLocation == LocationTypes.Overworld, true);
+			CurrentState = PlayerState.ArrivedAndSet;
+		}
+		else if (CurrentState == PlayerState.ArrivedAndSet)
+		{
 			CurrentState = PlayerState.OnLevel;
+			forcedTransition = false;
 		}
 	}
 
@@ -246,12 +261,27 @@ public class PlayerController : MonoBehaviour {
 	const string MonsterTag = "Monster";
 	void OnCollisionEnter2D(Collision2D collision)
 	{
+		if (CurrentState == PlayerState.Transition)
+			return;
+
+		if ((CurrentState == PlayerState.Arrived || CurrentState == PlayerState.ArrivedAndSet) && !forcedTransition)
+		{
+			UnderworldObjectFader.SetActive(false, false);
+			OverworldObjectFader.SetActive(false, true);
+			CurrentState = PlayerState.Transition;
+			TransitionTimer = TransitionTimerMax;
+			anim.SetBool(AnimParam_Jump, true);
+			transform.position = lastPosition;
+			forcedTransition = true;
+		}
+
 		if (collision.collider.tag == MonsterTag)
 		{
 			MagicPower -= MagicDamage_Monster;
 			Life -= LifeDamage_Monster;
 			DamageTimer = DamageTimerMax;
-			Pushback();
+			if (!forcedTransition)
+				Pushback();
 		}
 		else if (collision.collider.tag == LavaTag)
 		{
@@ -261,7 +291,8 @@ public class PlayerController : MonoBehaviour {
 				Life -= LifeDamage_Lava;
 				DamageTimer = DamageTimerMax;
 			}
-			Pushback();
+			if (!forcedTransition)
+				Pushback();
 		}
 	}
 
@@ -269,7 +300,7 @@ public class PlayerController : MonoBehaviour {
 	const string PlayerAttackTag = "PlayerAttack";
 	void OnTriggerStay2D(Collider2D collider)
 	{
-		if (CurrentState == PlayerState.Paused)
+		if (CurrentState == PlayerState.Paused || CurrentState == PlayerState.Transition)
 			return;
 
 		if (collider.tag == PlayerAttackTag)

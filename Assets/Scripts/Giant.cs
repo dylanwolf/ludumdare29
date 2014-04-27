@@ -23,6 +23,9 @@ public class Giant : MonoBehaviour {
 	const string PlayerTag = "Player";
 	void OnCollisionEnter2D(Collision2D collision)
 	{
+		if (PlayerController.Current.CurrentState == PlayerController.PlayerState.Transition)
+			return;
+
 		if (collision.collider.tag == PlayerTag)
 		{
 			if (PlayerController.Current.Rubies >= RubyGoal)
