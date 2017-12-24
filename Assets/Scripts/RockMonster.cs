@@ -65,7 +65,7 @@ public class RockMonster : MonoBehaviour {
 
 	void BeginWait()
 	{
-		rigidbody2D.velocity = Vector2.zero;
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		CurrentState = AIState.Wait;
 		timer = Random.Range(WaitTimerMin, WaitTimerMax);
 	}
@@ -78,7 +78,7 @@ public class RockMonster : MonoBehaviour {
 	void FixedUpdate () {
 		if (PlayerController.Current.CurrentState == PlayerController.PlayerState.Paused)
 		{
-			rigidbody2D.velocity = Vector2.zero;
+			GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			return;
 		}
 
@@ -86,7 +86,7 @@ public class RockMonster : MonoBehaviour {
 		if (CurrentState == AIState.Wander)
 		{
 			lastPosition = transform.position;
-			rigidbody2D.velocity = direction * Speed;
+			GetComponent<Rigidbody2D>().velocity = direction * Speed;
 		}
 	}
 

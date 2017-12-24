@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour {
 			tmpForce.x = Input.GetAxis("Horizontal");
 			tmpForce.y = Input.GetAxis("Vertical");
 			lastPosition = transform.position;
-			rigidbody2D.velocity = (tmpForce * Speed);
+			GetComponent<Rigidbody2D>().velocity = (tmpForce * Speed);
 			if (tmpForce.x != 0)
 			{
 				tmpScale = transform.localScale;
@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else
 		{
-			rigidbody2D.velocity = Vector2.zero;
+			GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 			anim.SetFloat(AnimParam_Speed, 0);
 		}
 		
@@ -196,7 +196,7 @@ public class PlayerController : MonoBehaviour {
 			PushbackTimer -= Time.fixedDeltaTime;
 			if (PushbackTimer > 0)
 			{
-				rigidbody2D.velocity -= (pushbackDirection * Mathf.Sin ((Mathf.PI/2) * (PushbackTimer/MaxPushbackTimer)) * PushbackAmount);
+				GetComponent<Rigidbody2D>().velocity -= (pushbackDirection * Mathf.Sin ((Mathf.PI/2) * (PushbackTimer/MaxPushbackTimer)) * PushbackAmount);
 			}
 		}
 

@@ -41,7 +41,7 @@ public class MessageWindow : MonoBehaviour {
 
 	void LateUpdate()
 	{
-		if (!renderer.enabled)
+		if (!GetComponent<Renderer>().enabled)
 			return;
 
 		if (Input.GetButtonUp("Jump"))
