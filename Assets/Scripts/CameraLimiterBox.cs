@@ -11,8 +11,8 @@ public class CameraLimiterBox : MonoBehaviour
     {
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
 		Vector3 topLeft = transform.position;
-		topLeft.x -= ((0.5f * boxCollider.size.x) - boxCollider.center.x) * boxCollider.transform.lossyScale.x;
-		topLeft.y -= ((0.5f * boxCollider.size.y) - boxCollider.center.y) * boxCollider.transform.lossyScale.y;
+		topLeft.x -= ((0.5f * boxCollider.size.x) - boxCollider.offset.x) * boxCollider.transform.lossyScale.x;
+		topLeft.y -= ((0.5f * boxCollider.size.y) - boxCollider.offset.y) * boxCollider.transform.lossyScale.y;
 
         Bounds = new Rect(
 				topLeft.x,
